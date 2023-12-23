@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Babylon.js Example</title>
+  <style>
+    body { margin: 0; display: flex; height: 100vh; }
+    canvas { flex: 1; }
+    button { padding: 10px; margin: 10px; }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script>
+    var canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+    canvas.style.width = "100%";
+
+    var engine = new BABYLON.Engine(canvas, true);
+    var scene = new BABYLON.Scene(engine);
+
+    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
+    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.attachControl(canvas, true);
+
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    var material = new BABYLON.StandardMaterial("material", scene);
+    material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+
+    var box = BABYLON.MeshBuilder.CreateBox("box", { size: 2 }, scene);
+    box.material = material;
+
+    engine.runRenderLoop(function () {
+      scene.render();
+    });
+
+    window.addEventListener("resize", function () {
+      engine.resize();
+    });
+
+    function rotateBox() {
+      // Küpü Y ekseninde 0.02 radyan (yaklaşık 1.15 derece) döndür
+      box.rotation.y += 0.02;
+    }
+  </script>
+
+  <!-- Buton ekleyerek, butona tıklandığında rotateBox fonksiyonunu çağır -->
+  <button onclick="rotateBox()">Nesneyi Döndür</button>
+</body>
+</html>
